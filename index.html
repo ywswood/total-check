@@ -553,7 +553,7 @@
           body: JSON.stringify({
             contents: [{
               parts: [
-                { text: `この画像はピッキングリスト（出荷指示書）です。画像から商品情報を読み取り、以下のJSON形式のみで返してください。コードブロック・説明文不要。\n{"items":[{"jan":"4901234567890","name":"商品名","quantity":3}]}\nJANコードが読み取れない場合はjanを空文字に、数量が読み取れない場合は1にしてください。` },
+                { text: `この画像はピッキングリスト（出荷指示書）です。画像から全商品情報を読み取り、以下のJSON形式のみで返してください。コードブロック・説明文は不要です。\n{"items":[{"productCode":"082713","jan":"4547855325958","name":"商品名","quantity":1}]}\n\n抽出ルール：\n- productCode: 商品番号（6桁の数字。リスト内の[082713]のような角括弧内の番号）\n- jan: JANコード（13桁の数字。バーコード下の数字列）\n- name: 商品名\n- quantity: 出荷指示数（数値）\n読み取れない場合：productCodeは空文字、janは空文字、quantityは1にしてください。` },
                 { inline_data: { mime_type: file.type || 'image/jpeg', data: base64 } }
               ]
             }]
@@ -565,7 +565,7 @@
         const result = JSON.parse(text.replace(/```json|```/g, '').trim());
         hideLoading();
         if (!result.items || result.items.length === 0) { alert('読み取れませんでした。撮り直してください。'); return; }
-        pickingList = result.items.map(item => ({ ...item, done: false }));
+        pickingList = result.items.map(item => ({ productCode: item.productCode || '', jan: item.jan || '', name: item.name || '', quantity: item.quantity || 1, done: false }));
         renderConfirmList();
         showPhase('confirm');
       } catch (e) { hideLoading(); alert('エラー: ' + e.message); }
@@ -586,7 +586,7 @@
       <div class="item-num">${i + 1}</div>
       <div class="item-info">
         <div class="item-name">${item.name || '商品名不明'}</div>
-        <div class="item-jan">${item.jan || 'JANコード不明'}</div>
+        <div class="item-jan">${item.productCode ? '商品: ' + item.productCode + '　' : ''}${item.jan || 'JANコード不明'}</div>
       </div>
       <div class="item-qty">×${item.quantity}</div>
     </div>`).join('');
@@ -621,12 +621,12 @@
     function onBarcodeDetected(code) {
       if (scanLocked) return;
 
-      // リストから未消込のJANを検索
-      const item = pickingList.find(it => !it.done && it.jan === code);
+      // リストから未消込のJAN or 商品番号を検索
+      const item = pickingList.find(it => !it.done && (it.jan === code || it.productCode === code));
 
       if (!item) {
         // リストにないor消込済み
-        const alreadyDone = pickingList.find(it => it.done && it.jan === code);
+        const alreadyDone = pickingList.find(it => it.done && (it.jan === code || it.productCode === code));
         if (alreadyDone) {
           playBeep('wrong');
           setStatusBar('⚠️ 消込済みです: ' + alreadyDone.name);
@@ -637,22 +637,38 @@
         return;
       }
 
-      // 一致した
+      // 一致した → ロックして音声待機
       scanLocked = true;
       currentScanItem = item;
       playBeep('scan');
       setStatusBar('🎤 数量を読み上げてください: ' + item.name + ' (期待: ' + item.quantity + '個)');
       showVoiceOverlay(true);
-      startListening();
+      startListening();  // バーコード読取後に音声認識を起動
     }
 
     function initSpeechRecognition() {
+      // 初期化のみ。SpeechRecognition の利用可否チェック
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SR) { alert('音声認識非対応です。'); return; }
+      if (!SR) { alert('音声認識非対応です。'); }
+      // インスタンスはstartListeningで毎回生成する
+    }
+
+    function startListening() {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) return;
+
+      // 前回のインスタンスが残っていれば停止してから破棄
+      if (recognition) {
+        try { recognition.abort(); } catch (e) { }
+        recognition = null;
+      }
+
+      // 毎回新規作成することで「すでに起動中」エラーを回避
       recognition = new SR();
       recognition.lang = 'ja-JP';
       recognition.continuous = false;
       recognition.interimResults = true;
+
       recognition.onresult = function (e) {
         let transcript = '';
         for (let i = e.resultIndex; i < e.results.length; i++) transcript += e.results[i][0].transcript;
@@ -660,13 +676,12 @@
         document.getElementById('voice-result').textContent = transcript + (num !== null ? ' → ' + num + '個' : '');
         if (e.results[e.results.length - 1].isFinal) onVoiceResult(num);
       };
-      recognition.onerror = function (e) { if (e.error !== 'no-speech') onVoiceResult(null); };
-    }
+      recognition.onerror = function (e) {
+        if (e.error !== 'no-speech') onVoiceResult(null);
+      };
 
-    function startListening() {
-      if (!recognition) return;
       document.getElementById('voice-result').textContent = '...';
-      try { recognition.start(); } catch (e) { }
+      try { recognition.start(); } catch (e) { console.warn('recognition.start error:', e); }
     }
 
     function onVoiceResult(qty) {
@@ -712,7 +727,7 @@
       <div class="ci-icon">${item.done ? '✅' : '⬜'}</div>
       <div class="ci-info">
         <div class="ci-name">${item.name || '商品名不明'}</div>
-        <div class="ci-jan">${item.jan || ''}</div>
+        <div class="ci-jan">${item.productCode ? item.productCode + '　' : ''}${item.jan || ''}</div>
       </div>
       <div class="ci-qty">${item.done ? '済' : '×' + item.quantity}</div>
     </div>`).join('');
