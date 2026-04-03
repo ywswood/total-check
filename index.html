@@ -8,92 +8,62 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, sans-serif; background: #0f172a; color: #f1f5f9; min-height: 100vh; }
 
-  #phase-upload {
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center; min-height: 100vh; padding: 24px; gap: 20px;
-  }
+  #phase-upload { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; gap: 20px; }
   #phase-upload h1 { font-size: 22px; font-weight: 700; color: #38bdf8; }
   #phase-upload p { font-size: 14px; color: #94a3b8; text-align: center; }
-
-  .upload-box {
-    width: 100%; max-width: 400px; border: 2px dashed #334155;
-    border-radius: 16px; padding: 32px 16px; text-align: center;
-    background: #1e293b; cursor: pointer;
-  }
+  .upload-box { width: 100%; max-width: 400px; border: 2px dashed #334155; border-radius: 16px; padding: 32px 16px; text-align: center; background: #1e293b; cursor: pointer; }
   .upload-box .icon { font-size: 48px; margin-bottom: 12px; }
   .upload-box span { font-size: 14px; color: #94a3b8; }
   #file-input { display: none; }
   #preview-img { width: 100%; max-width: 400px; border-radius: 12px; display: none; max-height: 240px; object-fit: contain; }
 
-  .btn-primary {
-    width: 100%; max-width: 400px; padding: 16px;
-    background: #0ea5e9; color: white; border: none;
-    border-radius: 12px; font-size: 16px; font-weight: 600;
-    cursor: pointer;
-  }
+  .btn-primary { width: 100%; max-width: 400px; padding: 16px; background: #0ea5e9; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; }
   .btn-primary:active { background: #0284c7; }
   .btn-primary:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
+  .btn-danger { background: #ef4444; }
+  .btn-danger:active { background: #dc2626; }
 
   #phase-confirm { display: none; flex-direction: column; min-height: 100vh; padding: 16px; gap: 12px; }
   #phase-confirm h2 { font-size: 18px; font-weight: 700; color: #38bdf8; padding: 8px 0; }
-
-  .item-card {
-    background: #1e293b; border-radius: 12px; padding: 14px 16px;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .item-card .item-num {
-    width: 28px; height: 28px; border-radius: 50%; background: #0ea5e9;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 700; flex-shrink: 0;
-  }
+  .item-card { background: #1e293b; border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; }
+  .item-card .item-num { width: 28px; height: 28px; border-radius: 50%; background: #0ea5e9; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
   .item-card .item-info { flex: 1; }
   .item-card .item-name { font-size: 14px; font-weight: 600; }
   .item-card .item-jan { font-size: 11px; color: #64748b; margin-top: 2px; }
   .item-card .item-qty { font-size: 20px; font-weight: 700; color: #38bdf8; background: #0f172a; border-radius: 8px; padding: 4px 10px; }
 
   #phase-scan { display: none; flex-direction: column; min-height: 100vh; }
-
   #camera-area { position: relative; width: 100%; background: #000; flex-shrink: 0; }
-  #video { width: 100%; display: block; max-height: 50vh; object-fit: cover; }
-  #scan-line {
-    position: absolute; left: 10%; right: 10%; height: 2px;
-    background: #ef4444; box-shadow: 0 0 8px #ef4444;
-    animation: scanMove 2s linear infinite; top: 30%;
-  }
+  #video { width: 100%; display: block; max-height: 45vh; object-fit: cover; }
+  #scan-line { position: absolute; left: 10%; right: 10%; height: 2px; background: #ef4444; box-shadow: 0 0 8px #ef4444; animation: scanMove 2s linear infinite; top: 30%; }
   @keyframes scanMove { 0% { top: 20%; } 50% { top: 70%; } 100% { top: 20%; } }
 
-  #scan-status-bar { padding: 12px 16px; background: #1e293b; font-size: 13px; color: #94a3b8; text-align: center; border-bottom: 1px solid #334155; }
+  #scan-status-bar { padding: 10px 16px; background: #1e293b; font-size: 13px; color: #94a3b8; text-align: center; border-bottom: 1px solid #334155; }
 
-  #current-item-display { padding: 14px 16px; background: #0f172a; }
-  #current-item-display .label { font-size: 11px; color: #64748b; margin-bottom: 4px; }
-  #current-item-display .target-name { font-size: 16px; font-weight: 700; }
-  #current-item-display .target-jan { font-size: 12px; color: #94a3b8; }
-  #current-item-display .target-qty { display: inline-block; background: #0ea5e9; color: white; border-radius: 8px; padding: 2px 10px; font-size: 14px; font-weight: 700; margin-top: 4px; }
-
-  #voice-overlay { display: none; padding: 16px; background: #1e3a5f; border-top: 2px solid #0ea5e9; text-align: center; }
+  #voice-overlay { display: none; padding: 12px 16px; background: #1e3a5f; border-top: 2px solid #0ea5e9; text-align: center; }
   #voice-overlay.active { display: block; }
-  #voice-overlay .mic-icon { font-size: 32px; animation: pulse 0.8s infinite; }
+  #voice-overlay .mic-icon { font-size: 28px; animation: pulse 0.8s infinite; }
   @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
-  #voice-overlay .voice-hint { font-size: 13px; color: #93c5fd; margin-top: 4px; }
-  #voice-result { font-size: 28px; font-weight: 700; color: #38bdf8; min-height: 36px; }
+  #voice-overlay .voice-hint { font-size: 12px; color: #93c5fd; margin-top: 2px; }
+  #voice-result { font-size: 24px; font-weight: 700; color: #38bdf8; min-height: 30px; }
 
-  #result-flash {
-    display: none; position: fixed; inset: 0;
-    align-items: center; justify-content: center;
-    font-size: 80px; z-index: 100;
-    pointer-events: none;
-  }
+  #result-flash { display: none; position: fixed; inset: 0; align-items: center; justify-content: center; font-size: 80px; z-index: 100; pointer-events: none; }
 
-  #progress-area { padding: 12px 16px; background: #1e293b; }
-  #progress-text { font-size: 12px; color: #64748b; margin-bottom: 6px; }
-  #progress-bar-wrap { background: #334155; border-radius: 99px; height: 6px; }
+  #progress-area { padding: 10px 16px; background: #1e293b; display: flex; align-items: center; gap: 12px; }
+  #progress-text { font-size: 12px; color: #64748b; white-space: nowrap; }
+  #progress-bar-wrap { flex: 1; background: #334155; border-radius: 99px; height: 6px; }
   #progress-bar { height: 6px; background: #0ea5e9; border-radius: 99px; transition: width 0.3s; width: 0%; }
+  #finish-btn { padding: 8px 16px; background: #ef4444; color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
 
-  #scan-list { flex: 1; overflow-y: auto; padding: 8px 16px 80px; }
-  .scan-result-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #1e293b; font-size: 13px; }
-  .scan-result-item .result-icon { font-size: 18px; flex-shrink: 0; }
-  .scan-result-item .result-name { flex: 1; color: #e2e8f0; }
-  .scan-result-item .result-detail { font-size: 11px; color: #94a3b8; }
+  #checklist { flex: 1; overflow-y: auto; padding: 8px 16px 20px; }
+  .check-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; margin-bottom: 6px; background: #1e293b; transition: opacity 0.3s; }
+  .check-item.done { opacity: 0.4; background: #0f2d1a; }
+  .check-item .ci-icon { font-size: 18px; flex-shrink: 0; width: 24px; text-align: center; }
+  .check-item .ci-info { flex: 1; }
+  .check-item .ci-name { font-size: 13px; font-weight: 600; }
+  .check-item .ci-jan { font-size: 10px; color: #64748b; }
+  .check-item .ci-qty { font-size: 16px; font-weight: 700; color: #38bdf8; }
+  .check-item.done .ci-qty { color: #34d399; }
 
   #phase-done { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; gap: 16px; text-align: center; }
   #phase-done .big-icon { font-size: 72px; }
@@ -113,14 +83,10 @@
 </head>
 <body>
 
-<div id="loading-overlay">
-  <div class="spinner"></div>
-  <div id="loading-text">AIが解析中...</div>
-</div>
-
+<div id="loading-overlay"><div class="spinner"></div><div id="loading-text">AIが解析中...</div></div>
 <div id="result-flash"></div>
 
-<!-- PHASE 1: アップロード -->
+<!-- PHASE 1 -->
 <div id="phase-upload">
   <h1>📦 ピッキング検証</h1>
   <p>ピッキングリストの写真を撮影または選択してください</p>
@@ -133,43 +99,38 @@
   <button class="btn-primary" id="analyze-btn" disabled onclick="analyzeImage()">AIで読み取る</button>
 </div>
 
-<!-- PHASE 2: リスト確認 -->
+<!-- PHASE 2 -->
 <div id="phase-confirm">
   <h2>📋 ピッキングリスト確認</h2>
   <div id="item-list-display"></div>
   <button class="btn-primary" onclick="startScanning()" style="margin-top:8px;">▶ スキャン開始</button>
-  <button class="btn-primary" onclick="showPhase('upload')" style="background:#1e293b; color:#94a3b8; margin-top:8px;">← 撮り直す</button>
+  <button class="btn-primary" onclick="showPhase('upload')" style="background:#1e293b;color:#94a3b8;margin-top:8px;">← 撮り直す</button>
 </div>
 
-<!-- PHASE 3: スキャン -->
+<!-- PHASE 3 -->
 <div id="phase-scan">
   <div id="camera-area">
     <video id="video" autoplay playsinline muted></video>
     <div id="scan-line"></div>
   </div>
   <div id="scan-status-bar">📷 バーコードをスキャンしてください</div>
-  <div id="current-item-display">
-    <div class="label">次にスキャンする商品</div>
-    <div class="target-name" id="target-name">-</div>
-    <div class="target-jan" id="target-jan">-</div>
-    <div class="target-qty" id="target-qty">× 0</div>
-  </div>
   <div id="voice-overlay">
     <div class="mic-icon">🎤</div>
     <div class="voice-hint">数量を読み上げてください</div>
-    <div id="voice-result">-</div>
+    <div id="voice-result">...</div>
   </div>
   <div id="progress-area">
     <div id="progress-text">0 / 0 完了</div>
     <div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+    <button id="finish-btn" onclick="finishScanning()">終了</button>
   </div>
-  <div id="scan-list"></div>
+  <div id="checklist"></div>
 </div>
 
-<!-- PHASE 4: 完了 -->
+<!-- PHASE 4 -->
 <div id="phase-done">
-  <div class="big-icon">🎉</div>
-  <h2>検証完了！</h2>
+  <div class="big-icon" id="done-icon">🎉</div>
+  <h2 id="done-title">検証完了！</h2>
   <div id="summary"></div>
   <button class="btn-primary" onclick="location.reload()">最初からやり直す</button>
 </div>
@@ -178,20 +139,20 @@
 <script>
 const GEMINI_API_KEY = 'AIzaSyA11HNJShWzJcEvfZh9JewKgzLUMSMSmpU';
 
+// pickingList: [{jan, name, quantity, done}]
 let pickingList = [];
-let scanResults = [];
-let currentIndex = 0;
 let recognition = null;
 let codeReader = null;
 let scanLocked = false;
+let currentScanItem = null; // 今音声入力中のアイテム
 
 function showPhase(name) {
   ['upload','confirm','scan','done'].forEach(p => {
-    document.getElementById('phase-' + p).style.display = (p === name) ? 'flex' : 'none';
+    document.getElementById('phase-'+p).style.display = (p===name)?'flex':'none';
   });
 }
 
-// PHASE 1
+// ===== PHASE 1 =====
 document.getElementById('file-input').addEventListener('change', function(e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -209,65 +170,54 @@ async function analyzeImage() {
   try {
     const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${GEMINI_API_KEY}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
-        contents: [{
-          parts: [
-            { text: `この画像はピッキングリスト（出荷指示書）です。画像から商品情報を読み取り、以下のJSON形式のみで返してください。コードブロック・説明文不要。\n{"items":[{"jan":"4901234567890","name":"商品名","quantity":3}]}` },
-            { inline_data: { mime_type: file.type || 'image/jpeg', data: base64 } }
-          ]
-        }]
+        contents: [{parts: [
+          {text: `この画像はピッキングリスト（出荷指示書）です。画像から商品情報を読み取り、以下のJSON形式のみで返してください。コードブロック・説明文不要。\n{"items":[{"jan":"4901234567890","name":"商品名","quantity":3}]}\nJANコードが読み取れない場合はjanを空文字に、数量が読み取れない場合は1にしてください。`},
+          {inline_data: {mime_type: file.type||'image/jpeg', data: base64}}
+        ]}]
       })
     });
     const json = await res.json();
     if (json.error) throw new Error(json.error.message);
     const text = json.candidates[0].content.parts[0].text;
-    const clean = text.replace(/```json|```/g, '').trim();
-    const result = JSON.parse(clean);
+    const result = JSON.parse(text.replace(/```json|```/g,'').trim());
     hideLoading();
-    if (!result.items || result.items.length === 0) {
-      alert('ピッキングリストを読み取れませんでした。\n写真を撮り直してください。');
-      return;
-    }
-    pickingList = result.items;
+    if (!result.items || result.items.length===0) { alert('読み取れませんでした。撮り直してください。'); return; }
+    pickingList = result.items.map(item => ({...item, done: false}));
     renderConfirmList();
     showPhase('confirm');
-  } catch(e) {
-    hideLoading();
-    alert('エラー: ' + e.message);
-  }
+  } catch(e) { hideLoading(); alert('エラー: '+e.message); }
 }
 
 function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = e => resolve(e.target.result.split(',')[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
+  return new Promise((res,rej) => {
+    const r = new FileReader();
+    r.onload = e => res(e.target.result.split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
   });
 }
 
 function renderConfirmList() {
-  document.getElementById('item-list-display').innerHTML = pickingList.map((item, i) => `
+  document.getElementById('item-list-display').innerHTML = pickingList.map((item,i) => `
     <div class="item-card">
       <div class="item-num">${i+1}</div>
       <div class="item-info">
-        <div class="item-name">${item.name || '商品名不明'}</div>
-        <div class="item-jan">${item.jan || 'JANコード不明'}</div>
+        <div class="item-name">${item.name||'商品名不明'}</div>
+        <div class="item-jan">${item.jan||'JANコード不明'}</div>
       </div>
       <div class="item-qty">×${item.quantity}</div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-// PHASE 3
+// ===== PHASE 3 =====
 async function startScanning() {
-  currentIndex = 0;
-  scanResults = [];
   scanLocked = false;
+  currentScanItem = null;
   showPhase('scan');
+  renderChecklist();
   updateProgress();
-  updateCurrentTarget();
   await startCamera();
   startBarcodeReader();
   initSpeechRecognition();
@@ -275,43 +225,49 @@ async function startScanning() {
 
 async function startCamera() {
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: 'environment', width: { ideal: 1280 } }
-    });
+    const stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment',width:{ideal:1280}}});
     document.getElementById('video').srcObject = stream;
-  } catch(e) {
-    alert('カメラを起動できませんでした: ' + e.message);
-  }
+  } catch(e) { alert('カメラ起動エラー: '+e.message); }
 }
 
 function startBarcodeReader() {
   codeReader = new ZXing.BrowserMultiFormatReader();
-  const video = document.getElementById('video');
-  codeReader.decodeFromVideoElementContinuously(video, (result, err) => {
+  codeReader.decodeFromVideoElementContinuously(document.getElementById('video'), (result, err) => {
     if (result && !scanLocked) onBarcodeDetected(result.getText());
   });
 }
 
 function onBarcodeDetected(code) {
-  if (scanLocked || currentIndex >= pickingList.length) return;
-  const target = pickingList[currentIndex];
-  if (target.jan && target.jan !== code) {
-    playBeep('wrong');
-    flashResult('⚠️');
-    setStatusBar(`⚠️ 違う商品です！ 期待: ${target.jan}`);
+  if (scanLocked) return;
+
+  // リストから未消込のJANを検索
+  const item = pickingList.find(it => !it.done && it.jan === code);
+
+  if (!item) {
+    // リストにないor消込済み
+    const alreadyDone = pickingList.find(it => it.done && it.jan === code);
+    if (alreadyDone) {
+      playBeep('wrong');
+      setStatusBar('⚠️ 消込済みです: ' + alreadyDone.name);
+    } else {
+      playBeep('wrong');
+      setStatusBar('❌ リストにない商品です: ' + code);
+    }
     return;
   }
+
+  // 一致した
   scanLocked = true;
+  currentScanItem = item;
   playBeep('scan');
-  flashResult('✅');
-  setStatusBar('🎤 数量を読み上げてください...');
+  setStatusBar('🎤 数量を読み上げてください: ' + item.name + ' (期待: ' + item.quantity + '個)');
   showVoiceOverlay(true);
   startListening();
 }
 
 function initSpeechRecognition() {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) { alert('音声認識非対応です。Chromeを使用してください。'); return; }
+  if (!SR) { alert('音声認識非対応です。'); return; }
   recognition = new SR();
   recognition.lang = 'ja-JP';
   recognition.continuous = false;
@@ -320,11 +276,10 @@ function initSpeechRecognition() {
     let transcript = '';
     for (let i = e.resultIndex; i < e.results.length; i++) transcript += e.results[i][0].transcript;
     const num = extractNumber(transcript);
-    document.getElementById('voice-result').textContent = transcript + (num !== null ? ` → ${num}個` : '');
+    document.getElementById('voice-result').textContent = transcript + (num!==null ? ' → '+num+'個' : '');
     if (e.results[e.results.length-1].isFinal) onVoiceResult(num);
   };
-  recognition.onerror = function(e) { if (e.error !== 'no-speech') onVoiceResult(null); };
-  recognition.onend = function() {};
+  recognition.onerror = function(e) { if (e.error!=='no-speech') onVoiceResult(null); };
 }
 
 function startListening() {
@@ -335,26 +290,90 @@ function startListening() {
 
 function onVoiceResult(qty) {
   showVoiceOverlay(false);
-  const target = pickingList[currentIndex];
-  const ok = (qty !== null && qty === target.quantity);
-  scanResults.push({ jan: target.jan, name: target.name, expected: target.quantity, actual: qty, ok });
-  addScanResultItem(ok, target.name, target.quantity, qty);
-  if (ok) {
+  const item = currentScanItem;
+  if (!item) return;
+
+  if (qty !== null && qty === item.quantity) {
+    // 正解 → 消込
+    item.done = true;
     playBeep('correct');
     flashResult('✅');
-    currentIndex++;
+    setStatusBar('✅ ' + item.name + ' 消込完了！');
+    renderChecklist();
     updateProgress();
-    if (currentIndex >= pickingList.length) {
+
+    const doneCount = pickingList.filter(it => it.done).length;
+    if (doneCount === pickingList.length) {
       setTimeout(finishScanning, 800);
     } else {
-      setTimeout(() => { scanLocked = false; updateCurrentTarget(); setStatusBar('📷 バーコードをスキャンしてください'); }, 600);
+      setTimeout(() => {
+        scanLocked = false;
+        currentScanItem = null;
+        setStatusBar('📷 バーコードをスキャンしてください');
+      }, 600);
     }
   } else {
+    // 不正解
     playBeep('wrong');
     flashResult('❌');
-    setStatusBar(`❌ 数量違い！ 期待: ${target.quantity}個 → もう一度スキャン`);
-    setTimeout(() => { scanLocked = false; setStatusBar('📷 もう一度スキャンしてください'); }, 1500);
+    setStatusBar('❌ 数量違い！ 期待: ' + item.quantity + '個 → もう一度スキャン');
+    setTimeout(() => {
+      scanLocked = false;
+      currentScanItem = null;
+      setStatusBar('📷 バーコードをスキャンしてください');
+    }, 1500);
   }
+}
+
+function renderChecklist() {
+  document.getElementById('checklist').innerHTML = pickingList.map(item => `
+    <div class="check-item ${item.done?'done':''}">
+      <div class="ci-icon">${item.done?'✅':'⬜'}</div>
+      <div class="ci-info">
+        <div class="ci-name">${item.name||'商品名不明'}</div>
+        <div class="ci-jan">${item.jan||''}</div>
+      </div>
+      <div class="ci-qty">${item.done?'済':'×'+item.quantity}</div>
+    </div>`).join('');
+}
+
+function updateProgress() {
+  const total = pickingList.length;
+  const done = pickingList.filter(it=>it.done).length;
+  document.getElementById('progress-text').textContent = done+' / '+total+' 完了';
+  document.getElementById('progress-bar').style.width = (done/total*100)+'%';
+}
+
+function setStatusBar(msg) { document.getElementById('scan-status-bar').textContent = msg; }
+function showVoiceOverlay(show) { document.getElementById('voice-overlay').classList.toggle('active', show); }
+
+function finishScanning() {
+  const video = document.getElementById('video');
+  if (video.srcObject) video.srcObject.getTracks().forEach(t=>t.stop());
+  if (codeReader) codeReader.reset();
+
+  const total = pickingList.length;
+  const done = pickingList.filter(it=>it.done).length;
+  const undone = total - done;
+
+  document.getElementById('done-icon').textContent = undone===0 ? '🎉' : '⚠️';
+  document.getElementById('done-title').textContent = undone===0 ? '全件完了！' : '検証終了';
+
+  let summaryHTML = `
+    <div class="summary-row"><span>総件数</span><span>${total}件</span></div>
+    <div class="summary-row"><span class="ok-text">✅ 消込済み</span><span class="ok-text">${done}件</span></div>
+    <div class="summary-row"><span class="ng-text">⬜ 未処理</span><span class="ng-text">${undone}件</span></div>`;
+
+  if (undone > 0) {
+    const undoneItems = pickingList.filter(it=>!it.done);
+    summaryHTML += undoneItems.map(it =>
+      `<div class="summary-row"><span class="ng-text" style="font-size:12px;">　${it.name}</span><span class="ng-text" style="font-size:12px;">×${it.quantity}</span></div>`
+    ).join('');
+  }
+
+  document.getElementById('summary').innerHTML = summaryHTML;
+  showPhase('done');
+  if (undone===0) playBeep('complete');
 }
 
 function extractNumber(text) {
@@ -365,60 +384,20 @@ function extractNumber(text) {
   return null;
 }
 
-function updateCurrentTarget() {
-  if (currentIndex >= pickingList.length) return;
-  const t = pickingList[currentIndex];
-  document.getElementById('target-name').textContent = t.name || '商品名不明';
-  document.getElementById('target-jan').textContent = t.jan || 'JANコード不明';
-  document.getElementById('target-qty').textContent = `× ${t.quantity}`;
-}
-
-function updateProgress() {
-  const total = pickingList.length;
-  const done = Math.min(currentIndex, total);
-  document.getElementById('progress-text').textContent = `${done} / ${total} 完了`;
-  document.getElementById('progress-bar').style.width = `${(done/total)*100}%`;
-}
-
-function setStatusBar(msg) { document.getElementById('scan-status-bar').textContent = msg; }
-function showVoiceOverlay(show) { document.getElementById('voice-overlay').classList.toggle('active', show); }
-
-function addScanResultItem(ok, name, expected, actual) {
-  const list = document.getElementById('scan-list');
-  const div = document.createElement('div');
-  div.className = 'scan-result-item';
-  div.innerHTML = `<span class="result-icon">${ok?'✅':'❌'}</span><span class="result-name">${name}</span><span class="result-detail">${ok?`${expected}個 OK`:`期待:${expected} 実際:${actual??'?'}`}</span>`;
-  list.prepend(div);
-}
-
-function finishScanning() {
-  const video = document.getElementById('video');
-  if (video.srcObject) video.srcObject.getTracks().forEach(t => t.stop());
-  if (codeReader) codeReader.reset();
-  const total = scanResults.length;
-  const okCount = scanResults.filter(r => r.ok).length;
-  document.getElementById('summary').innerHTML = `
-    <div class="summary-row"><span>検証件数</span><span>${total}件</span></div>
-    <div class="summary-row"><span class="ok-text">✅ 正常</span><span class="ok-text">${okCount}件</span></div>
-    <div class="summary-row"><span class="ng-text">❌ 数量違い</span><span class="ng-text">${total-okCount}件</span></div>`;
-  showPhase('done');
-  if (total === okCount) playBeep('complete');
-}
-
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const audioCtx = new (window.AudioContext||window.webkitAudioContext)();
 function playBeep(type) {
-  const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain();
   o.connect(g); g.connect(audioCtx.destination);
-  const now = audioCtx.currentTime;
-  if (type === 'scan') {
-    o.frequency.setValueAtTime(880, now); g.gain.setValueAtTime(0.3, now); g.gain.exponentialRampToValueAtTime(0.001, now+0.15); o.start(now); o.stop(now+0.15);
-  } else if (type === 'correct') {
-    o.frequency.setValueAtTime(660, now); o.frequency.setValueAtTime(880, now+0.1); g.gain.setValueAtTime(0.3, now); g.gain.exponentialRampToValueAtTime(0.001, now+0.3); o.start(now); o.stop(now+0.3);
-  } else if (type === 'wrong') {
-    o.type='sawtooth'; o.frequency.setValueAtTime(220, now); g.gain.setValueAtTime(0.3, now); g.gain.exponentialRampToValueAtTime(0.001, now+0.4); o.start(now); o.stop(now+0.4);
-  } else if (type === 'complete') {
-    [523,659,784,1047].forEach((freq,i) => {
-      const o2=audioCtx.createOscillator(), g2=audioCtx.createGain();
+  const now=audioCtx.currentTime;
+  if (type==='scan') {
+    o.frequency.setValueAtTime(880,now); g.gain.setValueAtTime(0.3,now); g.gain.exponentialRampToValueAtTime(0.001,now+0.15); o.start(now); o.stop(now+0.15);
+  } else if (type==='correct') {
+    o.frequency.setValueAtTime(660,now); o.frequency.setValueAtTime(880,now+0.1); g.gain.setValueAtTime(0.3,now); g.gain.exponentialRampToValueAtTime(0.001,now+0.3); o.start(now); o.stop(now+0.3);
+  } else if (type==='wrong') {
+    o.type='sawtooth'; o.frequency.setValueAtTime(220,now); g.gain.setValueAtTime(0.3,now); g.gain.exponentialRampToValueAtTime(0.001,now+0.4); o.start(now); o.stop(now+0.4);
+  } else if (type==='complete') {
+    [523,659,784,1047].forEach((freq,i)=>{
+      const o2=audioCtx.createOscillator(),g2=audioCtx.createGain();
       o2.connect(g2); g2.connect(audioCtx.destination);
       const t=now+i*0.12; o2.frequency.setValueAtTime(freq,t); g2.gain.setValueAtTime(0.3,t); g2.gain.exponentialRampToValueAtTime(0.001,t+0.3); o2.start(t); o2.stop(t+0.3);
     });
@@ -426,13 +405,13 @@ function playBeep(type) {
 }
 
 function flashResult(emoji) {
-  const el = document.getElementById('result-flash');
-  el.textContent = emoji; el.style.display = 'flex';
-  el.style.background = emoji==='✅' ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)';
-  setTimeout(() => { el.style.display = 'none'; }, 400);
+  const el=document.getElementById('result-flash');
+  el.textContent=emoji; el.style.display='flex';
+  el.style.background=emoji==='✅'?'rgba(16,185,129,0.3)':'rgba(239,68,68,0.3)';
+  setTimeout(()=>{el.style.display='none';},400);
 }
 
-function showLoading(msg) { document.getElementById('loading-text').textContent = msg; document.getElementById('loading-overlay').classList.add('active'); }
+function showLoading(msg) { document.getElementById('loading-text').textContent=msg; document.getElementById('loading-overlay').classList.add('active'); }
 function hideLoading() { document.getElementById('loading-overlay').classList.remove('active'); }
 
 showPhase('upload');
